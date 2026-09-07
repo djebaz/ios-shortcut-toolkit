@@ -437,7 +437,11 @@ The `pworksIphone` repository similarly treats its final production `.shortcut` 
 
 ---
 
-# 13. Signing on macOS
+# 13. Signing Shortcuts
+
+Two signing methods are available:
+
+## Method 1: Apple's macOS CLI (Official)
 
 Apple documents the `shortcuts sign` command on macOS.
 
@@ -494,9 +498,90 @@ Apple's official documentation:
 https://support.apple.com/guide/shortcuts-mac/apd455c82f02/mac
 ```
 
-Important limitation:
+**Requirements:**
+- macOS with Apple's `shortcuts` CLI tool
+- Apple account authentication
 
-> Apple's documentation describes signing a Shortcut that was previously exported. A programmatically mutated donor plist still has to be accepted by Apple's signer. This is another reason to preserve a real exported donor structure instead of inventing the full file format.
+## Method 2: RoutineHub HubSign (Cross-platform)
+
+For systems without macOS, use the RoutineHub community's HubSign service.
+
+The included helper is:
+
+```text
+tools/sign_shortcut_hubsign.py
+```
+
+Usage:
+
+```bash
+python3 tools/sign_shortcut_hubsign.py \
+  Generated.shortcut \
+  Generated-signed.shortcut
+```
+
+Optional shortcut name:
+
+```bash
+python3 tools/sign_shortcut_hubsign.py \
+  Generated.shortcut \
+  Generated-signed.shortcut \
+  --name "My Custom Name"
+```
+
+**Requirements:**
+- Python 3.7+ (standard library only)
+- Active internet connection
+- Compliance with RoutineHub service terms
+
+**How it works:**
+
+```text
+unsigned .shortcut
+      ↓
+POST plist to https://hubsign.routinehub.services/sign
+      ↓
+HubSign signs remotely
+      ↓
+AEA1-prefixed signed .shortcut
+      ↓
+import on iOS
+```
+
+The service is maintained by the RoutineHub community. CMS signatures for `.shortcut` files cannot be generated outside Apple devices, necessitating this external service.
+
+**Validation:**
+
+Signed files must begin with hex `AEA1` to verify successful signing:
+
+```bash
+xxd -l 4 Generated-signed.shortcut
+```
+
+Expected output:
+
+```text
+00000000: 4145 4131                             AEA1
+```
+
+The Python script automatically verifies this header.
+
+## Which method to use?
+
+| Method | Platforms | Network | Ownership |
+|--------|-----------|---------|-----------|
+| `sign_shortcut.sh` | macOS only | Not required | Apple official |
+| `sign_shortcut_hubsign.py` | Windows, Linux, macOS | Required | RoutineHub community |
+
+**Recommendation:**
+- Use Apple's CLI on macOS when available (official, local)
+- Use HubSign for cross-platform development or when macOS is unavailable
+
+## Important limitation
+
+> Apple's documentation describes signing a Shortcut that was previously exported. A programmatically mutated donor plist still has to be accepted by the signer. This is another reason to preserve a real exported donor structure instead of inventing the full file format.
+
+This limitation applies to both signing methods.
 
 ---
 
@@ -601,13 +686,17 @@ plist parses
 ```text
 ios_shortcut_toolkit/
 ├── README.md
+├── AGENTS.md
+├── devdocs/
+│   └── toolkit-guide.md
 ├── tools/
 │   ├── shortcut_plist.py
 │   ├── dlshort.py
 │   ├── inspect_shortcut.py
 │   ├── build_shortcut.py
 │   ├── validate_shortcut.py
-│   └── sign_shortcut.sh
+│   ├── sign_shortcut.sh
+│   └── sign_shortcut_hubsign.py
 └── examples/
     ├── workflow_spec.example.json
     └── README.md
@@ -626,7 +715,8 @@ tools/shortcuts/
 ├── inspect_shortcut.py
 ├── build_shortcut.py
 ├── validate_shortcut.py
-└── sign_shortcut.sh
+├── sign_shortcut.sh
+└── sign_shortcut_hubsign.py
 ```
 
 The existing `dlshort.py` can remain the extraction entry point.
@@ -638,7 +728,7 @@ donor Shortcut
 → editable spec
 → generated unsigned Shortcut
 → validation
-→ Apple signing
+→ signing (macOS CLI or HubSign)
 ```
 
 ---

@@ -27,9 +27,13 @@ python3 tools/build_shortcut.py \
 python3 tools/validate_shortcut.py Generated.shortcut
 ```
 
-### Sign (macOS only)
+### Sign (macOS or cross-platform)
 ```bash
+# macOS: Apple's official CLI
 ./tools/sign_shortcut.sh Generated.shortcut Signed.shortcut
+
+# Cross-platform: RoutineHub HubSign service
+python3 tools/sign_shortcut_hubsign.py Generated.shortcut Signed.shortcut
 ```
 
 ## Philosophy
@@ -48,7 +52,8 @@ This makes the workflow much more reliable than inventing an entire `.shortcut` 
 | `inspect_shortcut.py` | Inspect action structure and export specs |
 | `build_shortcut.py` | Generate shortcuts from donor + spec |
 | `validate_shortcut.py` | Structural validation |
-| `sign_shortcut.sh` | Sign with Apple's macOS shortcuts CLI |
+| `sign_shortcut.sh` | Sign with Apple's macOS shortcuts CLI (local) |
+| `sign_shortcut_hubsign.py` | Sign via RoutineHub HubSign (cross-platform) |
 | `shortcut_plist.py` | Shared plist utilities |
 
 ## Workflow
@@ -79,7 +84,9 @@ Import and smoke test
 ## Requirements
 
 - Python 3.7+ (no external dependencies)
-- macOS with `shortcuts` CLI (for signing only)
+- For signing:
+  - macOS with `shortcuts` CLI (official Apple method), OR
+  - Internet connection (RoutineHub HubSign cross-platform method)
 
 ## License
 

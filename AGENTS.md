@@ -68,7 +68,9 @@ python3 tools/validate_shortcut.py Generated.shortcut
 - A donor `.shortcut` file (known-good template)
 - A spec JSON with `actions` array and optional `workflow_overrides`
 
-### Task: Sign a shortcut (macOS only)
+### Task: Sign a shortcut
+
+**Method 1: Apple's macOS CLI (official)**
 
 ```bash
 # Sign with default mode (anyone)
@@ -78,7 +80,29 @@ python3 tools/validate_shortcut.py Generated.shortcut
 ./tools/sign_shortcut.sh Generated.shortcut Signed.shortcut people-who-know-me
 ```
 
-**Important:** Signing requires macOS with Apple's `shortcuts` CLI installed.
+**Requirements:** macOS with Apple's `shortcuts` CLI installed.
+
+**Method 2: RoutineHub HubSign (cross-platform)**
+
+```bash
+# Sign via RoutineHub HubSign service
+python3 tools/sign_shortcut_hubsign.py Generated.shortcut Signed.shortcut
+
+# With custom name
+python3 tools/sign_shortcut_hubsign.py Generated.shortcut Signed.shortcut --name "My Shortcut"
+```
+
+**Requirements:** Python 3.7+, active internet connection, RoutineHub service compliance.
+
+**How it works:**
+- POSTs unsigned plist to `https://hubsign.routinehub.services/sign`
+- Service signs remotely and returns AEA1-prefixed signed shortcut
+- Automatic signature verification (checks for AEA1 magic bytes)
+- No macOS required
+
+**Which to use:**
+- macOS available → use Apple's official CLI
+- Windows/Linux or no macOS → use HubSign
 
 ## Workflow Spec Format
 
@@ -135,14 +159,21 @@ Apple doesn't publish action schemas. To learn action structures:
 - Whether Apple will accept it during signing
 - Whether it will execute successfully
 
-### 3. Signing requires macOS
+### 3. Two signing methods available
 
-The `sign_shortcut.sh` wrapper requires:
-- macOS operating system
+**Apple's official CLI (`sign_shortcut.sh`):**
+- macOS operating system required
 - Apple's `shortcuts` CLI tool
 - Apple account authentication
+- Local signing (no network required)
 
-Unsigned shortcuts can be generated on any platform, but final signing requires macOS.
+**RoutineHub HubSign (`sign_shortcut_hubsign.py`):**
+- Works on Windows, Linux, macOS
+- Python 3.7+ standard library only
+- Active internet connection required
+- Remote signing via RoutineHub community service
+
+Unsigned shortcuts can be generated on any platform. For signing, choose the method that fits your environment.
 
 ## Action Development Loop
 
@@ -198,9 +229,15 @@ Committed specs should be JSON only, with donors documented but not necessarily 
 - Ensure `WFWorkflowActionParameters` is a dictionary (not array/string)
 - Review error details in output
 
-**"Apple Shortcut signing requires macOS"**
-- Signing only works on macOS with `shortcuts` CLI
-- Generate unsigned shortcuts on any platform, transfer to macOS for signing
+**"Apple Shortcut signing requires macOS"** (when using `sign_shortcut.sh`)
+- Apple's official CLI only works on macOS with `shortcuts` tool
+- Alternative: use `sign_shortcut_hubsign.py` for cross-platform signing via RoutineHub HubSign
+
+**"HubSign API returned HTTP 4xx/5xx"** (when using `sign_shortcut_hubsign.py`)
+- Check internet connection
+- Verify shortcut is structurally valid (run `validate_shortcut.py` first)
+- RoutineHub service may be temporarily unavailable
+- Fallback: use Apple's CLI on macOS if available
 
 ## Best Practices for Agents
 
@@ -241,15 +278,17 @@ Build and test one action at a time, not entire complex workflows.
 ## Platform Notes
 
 **Windows:**
-- All Python tools work
-- Cannot sign shortcuts (macOS only)
-- Use WSL or forward unsigned shortcuts to macOS for signing
+- All Python tools work (extract, inspect, build, validate)
+- Signing: use `sign_shortcut_hubsign.py` (cross-platform via RoutineHub HubSign)
+- Alternative: forward unsigned shortcuts to macOS for Apple CLI signing
 
 **Linux:**
-- All Python tools work
-- Cannot sign shortcuts (macOS only)
+- All Python tools work (extract, inspect, build, validate)
+- Signing: use `sign_shortcut_hubsign.py` (cross-platform via RoutineHub HubSign)
+- Alternative: forward unsigned shortcuts to macOS for Apple CLI signing
 
 **macOS:**
-- Full toolkit support including signing
-- `shortcuts` CLI available in recent macOS versions
-- Check `shortcuts sign --help` for documentation
+- Full toolkit support including both signing methods
+- `sign_shortcut.sh` uses Apple's official `shortcuts` CLI (local, no network)
+- `sign_shortcut_hubsign.py` also available (remote signing via internet)
+- Check `shortcuts sign --help` for Apple CLI documentation
