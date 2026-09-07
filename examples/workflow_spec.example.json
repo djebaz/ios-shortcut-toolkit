@@ -1,0 +1,18 @@
+{
+  "workflow_overrides": {},
+  "actions": [
+    {
+      "WFWorkflowActionIdentifier": "REPLACE_WITH_IDENTIFIER_FROM_A_REAL_DONOR_ACTION",
+      "WFWorkflowActionParameters": {
+        "ExampleGeneratedUUID": "{{UUID:example_output}}",
+        "Note": "Replace this entire action with a real extracted action dictionary. The UUID placeholder mechanism only provides consistent generated IDs."
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "REPLACE_WITH_SECOND_REAL_ACTION_IDENTIFIER",
+      "WFWorkflowActionParameters": {
+        "ReferenceToSameGeneratedUUID": "{{UUID:example_output}}"
+      }
+    }
+  ]
+}
