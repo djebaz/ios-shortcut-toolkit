@@ -27,14 +27,24 @@ python3 tools/build_shortcut.py \
 python3 tools/validate_shortcut.py Generated.shortcut
 ```
 
-### Sign (macOS or cross-platform)
+### Sign for iOS import
+
+**Easiest: iOS Shortcut (recommended)**
+1. Install "Sign Shortcut File" from https://routinehub.co/shortcut/26044/
+2. Transfer `Generated.shortcut` to your iPhone/iPad (iCloud Drive, AirDrop, etc.)
+3. Run "Sign Shortcut File" shortcut, select the file
+4. Import the signed output into Shortcuts app
+
+**Alternative methods:**
 ```bash
-# macOS: Apple's official CLI
+# macOS: Apple's official CLI (requires iCloud login)
 ./tools/sign_shortcut.sh Generated.shortcut Signed.shortcut
 
-# Cross-platform: RoutineHub HubSign service
+# Cross-platform: RoutineHub HubSign service (currently experiencing issues)
 python3 tools/sign_shortcut_hubsign.py Generated.shortcut Signed.shortcut
 ```
+
+See [docs/signing-via-ios-shortcut.md](docs/signing-via-ios-shortcut.md) for detailed signing guide.
 
 ## Philosophy
 
@@ -52,8 +62,9 @@ This makes the workflow much more reliable than inventing an entire `.shortcut` 
 | `inspect_shortcut.py` | Inspect action structure and export specs |
 | `build_shortcut.py` | Generate shortcuts from donor + spec |
 | `validate_shortcut.py` | Structural validation |
-| `sign_shortcut.sh` | Sign with Apple's macOS shortcuts CLI (local) |
-| `sign_shortcut_hubsign.py` | Sign via RoutineHub HubSign (cross-platform) |
+| `sign_shortcut.sh` | Sign with Apple's macOS shortcuts CLI (requires iCloud) |
+| `sign_shortcut_hubsign.py` | Sign via RoutineHub HubSign API (cross-platform, remote) |
+| **iOS Shortcut** | **Sign on iPhone/iPad via Files app (easiest)** ⭐ |
 | `shortcut_plist.py` | Shared plist utilities |
 
 ## Workflow
