@@ -39,6 +39,10 @@ env/
 # Keep example files
 !examples/*.json
 !examples/*.shortcut
+!examples/**/*.shortcut
+!examples/**/*.plist
+!examples/**/*.xml
+!examples/**/*.record.json
 
 # IDE
 .vscode/

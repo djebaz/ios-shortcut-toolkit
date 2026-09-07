@@ -1,0 +1,67 @@
+{
+  "recordChangeTag": "mtrmn6wy",
+  "created": {
+    "deviceID": "B92479F73019228167D883764329F47D4A4B39299704A09C582D59BBF83A9BD0",
+    "timestamp": 1788808918236,
+    "userRecordName": "_5c140b3259afc165cbbc8aa4bb06f111"
+  },
+  "pluginFields": {},
+  "recordName": "3B0BF852-A9A9-4673-97BF-DC1C38C1F573",
+  "fields": {
+    "signingStatus": {
+      "value": "APPROVED",
+      "type": "STRING"
+    },
+    "icon_color": {
+      "value": -615917313,
+      "type": "NUMBER_INT64"
+    },
+    "icon_glyph": {
+      "value": 61440,
+      "type": "NUMBER_INT64"
+    },
+    "signedShortcut": {
+      "type": "ASSETID",
+      "value": {
+        "fileChecksum": "Aa+VK75RygdEabGnMO3/a0/chKa1",
+        "size": 24129,
+        "downloadURL": "https://cvws.icloud-content.com/B/Aa-VK75RygdEabGnMO3_a0_chKa1/${f}?o=Al8bPMx5vmtgAkgsMJAmixgdpaBD_BIu_lmqneG13ZssLGjYD_cPVyjDG6jFrduQDQ&v=1&x=3&a=CAogrJHB_jclFrpG25djxVhrWuNjcwmN1HKbGxoqDyYvRKMSexCLpsnqhzQYq52A64c0IgEAUgTchKa1ajBKXdhTcedj613RMlJtQRSqE1Kk-2VydDfhUImOCT7RTEd7f-9PDg7iUCuN-wSAflpyMNLk7muU7sK7wyyS_xPrfwMuMAvI91VdCEdvtLTtnmZxS7OGX8XNWeKhVolux-lcZQ&e=1788809842&fl=&r=f2a6e225-b166-444e-a3f1-513ef3e687e3-1&k=_&ckc=com.apple.shortcuts&ckz=_defaultZone&p=33&s=d9J0GreSBho5rgWOiqGNEbWlixE"
+      }
+    },
+    "maliciousScanningContentVersion": {
+      "type": "NUMBER_INT64",
+      "value": 1
+    },
+    "signingCertificateExpirationDate": {
+      "type": "TIMESTAMP",
+      "value": 1822758599000
+    },
+    "name": {
+      "type": "STRING",
+      "value": "smoke test"
+    },
+    "icon": {
+      "value": {
+        "downloadURL": "https://cvws.icloud-content.com/B/AUKK9HGVtGtcAR0I7WDSorXUE8zx/${f}?o=AkKgPdlCx8cOAGwmYkacXWmgWTHqsBcdXDt97FPIE4wZIYS2Pjdsy32Y1ngAvmanJA&v=1&x=3&a=CAog-S9thY8vYjUkuOBH2O0xFA0BYj19rFTrQhmxEfPCYg4SexCLpsnqhzQYq52A64c0IgEAUgTUE8zxajCYT3zGGl7d1NOzSsfoE5fXWihCCNqGkB_FX6QEI9UjyseyAumrAqXDqXbGvzzjpVFyMLfUfR831O94tOrz0yxa-v8tJ1oGmWI0E55puS5b6LSEu7gDBbLSht64N98iW2P5Qg&e=1788809842&fl=&r=f2a6e225-b166-444e-a3f1-513ef3e687e3-1&k=_&ckc=com.apple.shortcuts&ckz=_defaultZone&p=33&s=BMaW8vUC1lUC4_oTVNDZNkJwljE",
+        "size": 40768,
+        "fileChecksum": "AUKK9HGVtGtcAR0I7WDSorXUE8zx"
+      },
+      "type": "ASSETID"
+    },
+    "shortcut": {
+      "type": "ASSETID",
+      "value": {
+        "downloadURL": "https://cvws.icloud-content.com/B/AVDDesQtWrTkBukXv8od9-d9CUh4/${f}?o=AkQSNGpZ_PsJPi7FqPRahfhWjUSa9GQrxzLWZhRt6UjiW6Wclr0Ar_lRoFR0eqmIxg&v=1&x=3&a=CAogRYqOsQRgHDVK9yvDr-zi5HZF7BiYy9y7b4TKsxY8ArESexCLpsnqhzQYq52A64c0IgEAUgR9CUh4ajDtFTWkApjK1K4jyQFSRBiIydDUjKlim44TRsvoNfMHVnvVuzDqRgE3GKFqqIZ9I7VyMARBsjPKWoHXfAh8MoLKs8rQvt7SfoM_56d0MhHFvZhvjGojWf2Px3K9lYhvcE0ekQ&e=1788809842&fl=&r=f2a6e225-b166-444e-a3f1-513ef3e687e3-1&k=_&ckc=com.apple.shortcuts&ckz=_defaultZone&p=33&s=LpL2Ha4b-blPHQNb3c63Wg3Wu3c",
+        "size": 4501,
+        "fileChecksum": "AVDDesQtWrTkBukXv8od9+d9CUh4"
+      }
+    }
+  },
+  "modified": {
+    "timestamp": 1788808925435,
+    "deviceID": "2",
+    "userRecordName": "_a702d02db102341342355d5ae64b8e07"
+  },
+  "deleted": false,
+  "recordType": "SharedShortcut"
+}
