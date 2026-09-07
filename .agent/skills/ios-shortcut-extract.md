@@ -24,7 +24,7 @@ Use this skill when you need to:
 Download the unsigned shortcut plist from a public iCloud URL:
 
 ```bash
-python3 tools/dlshort.py https://www.icloud.com/shortcuts/<SHORTCUT_ID> ./output
+python tools/dlshort.py https://www.icloud.com/shortcuts/<SHORTCUT_ID> ./output
 ```
 
 **Output files:**
@@ -42,7 +42,7 @@ python3 tools/dlshort.py https://www.icloud.com/shortcuts/<SHORTCUT_ID> ./output
 View the action list and workflow structure:
 
 ```bash
-python3 tools/inspect_shortcut.py output/<name>.shortcut
+python tools/inspect_shortcut.py output/<name>.shortcut
 ```
 
 This displays:
@@ -55,7 +55,7 @@ This displays:
 Export the action array as an editable JSON spec:
 
 ```bash
-python3 tools/inspect_shortcut.py output/<name>.shortcut --spec-out spec.json
+python tools/inspect_shortcut.py output/<name>.shortcut --spec-out spec.json
 ```
 
 The exported spec contains:
@@ -155,7 +155,7 @@ After extracting and inspecting a shortcut, you can:
 
 ```bash
 # 1. Download from iCloud
-python3 tools/dlshort.py \
+python tools/dlshort.py \
   https://www.icloud.com/shortcuts/abc123 \
   ./donors/basic-actions
 
@@ -167,7 +167,7 @@ python3 tools/dlshort.py \
 #   donors/basic-actions/Get_Text_Example.record.json
 
 # 2. Inspect structure
-python3 tools/inspect_shortcut.py \
+python tools/inspect_shortcut.py \
   donors/basic-actions/Get_Text_Example.shortcut
 
 # Output:
@@ -178,7 +178,7 @@ python3 tools/inspect_shortcut.py \
 #   2. is.workflow.actions.showresult
 
 # 3. Export editable spec
-python3 tools/inspect_shortcut.py \
+python tools/inspect_shortcut.py \
   donors/basic-actions/Get_Text_Example.shortcut \
   --spec-out donors/specs/get-text-example-spec.json
 

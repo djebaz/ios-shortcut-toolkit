@@ -36,13 +36,13 @@ ios-shortcut-toolkit/
 
 ```bash
 # Download from public iCloud URL
-python3 tools/dlshort.py https://www.icloud.com/shortcuts/<ID> ./output
+python tools/dlshort.py https://www.icloud.com/shortcuts/<ID> ./output
 
 # Inspect actions
-python3 tools/inspect_shortcut.py output/Shortcut_Name.shortcut
+python tools/inspect_shortcut.py output/Shortcut_Name.shortcut
 
 # Export editable spec
-python3 tools/inspect_shortcut.py output/Shortcut_Name.shortcut --spec-out spec.json
+python tools/inspect_shortcut.py output/Shortcut_Name.shortcut --spec-out spec.json
 ```
 
 **Output files:**
@@ -54,14 +54,14 @@ python3 tools/inspect_shortcut.py output/Shortcut_Name.shortcut --spec-out spec.
 
 ```bash
 # Build from donor + spec
-python3 tools/build_shortcut.py \
+python tools/build_shortcut.py \
   --donor Donor.shortcut \
   --spec workflow_spec.json \
   --output Generated.shortcut \
   --xml-debug Generated.xml
 
 # Validate
-python3 tools/validate_shortcut.py Generated.shortcut
+python tools/validate_shortcut.py Generated.shortcut
 ```
 
 **Requirements:**
@@ -86,10 +86,10 @@ python3 tools/validate_shortcut.py Generated.shortcut
 
 ```bash
 # Sign via RoutineHub HubSign service
-python3 tools/sign_shortcut_hubsign.py Generated.shortcut Signed.shortcut
+python tools/sign_shortcut_hubsign.py Generated.shortcut Signed.shortcut
 
 # With custom name
-python3 tools/sign_shortcut_hubsign.py Generated.shortcut Signed.shortcut --name "My Shortcut"
+python tools/sign_shortcut_hubsign.py Generated.shortcut Signed.shortcut --name "My Shortcut"
 ```
 
 **Requirements:** Python 3.7+, active internet connection, RoutineHub service compliance.

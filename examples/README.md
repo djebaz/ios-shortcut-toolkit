@@ -11,7 +11,7 @@ Recommended use:
 2. Run:
 
    ```bash
-   python3 ../tools/inspect_shortcut.py Donor.shortcut --spec-out donor-spec.json
+   python ../tools/inspect_shortcut.py Donor.shortcut --spec-out donor-spec.json
    ```
 
 3. Edit `donor-spec.json`.
@@ -25,7 +25,7 @@ Recommended use:
 6. Build with:
 
    ```bash
-   python3 ../tools/build_shortcut.py \
+   python ../tools/build_shortcut.py \
      --donor Donor.shortcut \
      --spec donor-spec.json \
      --output Generated.shortcut \

@@ -69,7 +69,7 @@ This approach is much more reliable than inventing the entire `.shortcut` plist 
 Generate the unsigned shortcut from donor + spec:
 
 ```bash
-python3 tools/build_shortcut.py \
+python tools/build_shortcut.py \
   --donor donors/basic-donor.shortcut \
   --spec specs/my-workflow.json \
   --output generated/MyShortcut.shortcut \
@@ -98,7 +98,7 @@ Next step on macOS: validate, then sign with Apple's shortcuts CLI.
 Run structural validation before signing:
 
 ```bash
-python3 tools/validate_shortcut.py generated/MyShortcut.shortcut
+python tools/validate_shortcut.py generated/MyShortcut.shortcut
 ```
 
 **What it checks:**
@@ -150,12 +150,12 @@ Two signing methods available:
 
 ```bash
 # Sign via RoutineHub community service
-python3 tools/sign_shortcut_hubsign.py \
+python tools/sign_shortcut_hubsign.py \
   generated/MyShortcut.shortcut \
   generated/MyShortcut-signed.shortcut
 
 # With custom name
-python3 tools/sign_shortcut_hubsign.py \
+python tools/sign_shortcut_hubsign.py \
   generated/MyShortcut.shortcut \
   generated/MyShortcut-signed.shortcut \
   --name "My Custom Name"
@@ -307,7 +307,7 @@ If something breaks, you know it was the last change.
 
 ```bash
 # 1. Build unsigned shortcut
-python3 tools/build_shortcut.py \
+python tools/build_shortcut.py \
   --donor donors/basic-donor.shortcut \
   --spec specs/hello-world.json \
   --output build/HelloWorld.shortcut \
@@ -319,7 +319,7 @@ python3 tools/build_shortcut.py \
 # Wrote XML debug copy: build/HelloWorld.xml
 
 # 2. Validate structure
-python3 tools/validate_shortcut.py build/HelloWorld.shortcut
+python tools/validate_shortcut.py build/HelloWorld.shortcut
 
 # Output:
 # VALID: basic plist/workflow structure passed.
@@ -335,7 +335,7 @@ python3 tools/validate_shortcut.py build/HelloWorld.shortcut
 # OR
 
 # 3b. Sign with HubSign (cross-platform)
-python3 tools/sign_shortcut_hubsign.py \
+python tools/sign_shortcut_hubsign.py \
   build/HelloWorld.shortcut \
   build/HelloWorld-signed.shortcut
 

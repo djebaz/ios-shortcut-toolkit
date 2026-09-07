@@ -6,17 +6,17 @@ Programmatically extract, inspect, generate, validate, and sign iOS Shortcuts us
 
 ### Extract a public shortcut
 ```bash
-python3 tools/dlshort.py https://www.icloud.com/shortcuts/<ID> ./output
+python tools/dlshort.py https://www.icloud.com/shortcuts/<ID> ./output
 ```
 
 ### Inspect shortcut structure
 ```bash
-python3 tools/inspect_shortcut.py output/MyShortcut.shortcut
+python tools/inspect_shortcut.py output/MyShortcut.shortcut
 ```
 
 ### Generate a new shortcut
 ```bash
-python3 tools/build_shortcut.py \
+python tools/build_shortcut.py \
   --donor Donor.shortcut \
   --spec workflow_spec.json \
   --output Generated.shortcut
@@ -24,7 +24,7 @@ python3 tools/build_shortcut.py \
 
 ### Validate structure
 ```bash
-python3 tools/validate_shortcut.py Generated.shortcut
+python tools/validate_shortcut.py Generated.shortcut
 ```
 
 ### Sign for iOS import
@@ -41,7 +41,7 @@ python3 tools/validate_shortcut.py Generated.shortcut
 ./tools/sign_shortcut.sh Generated.shortcut Signed.shortcut
 
 # Cross-platform: RoutineHub HubSign service (currently experiencing issues)
-python3 tools/sign_shortcut_hubsign.py Generated.shortcut Signed.shortcut
+python tools/sign_shortcut_hubsign.py Generated.shortcut Signed.shortcut
 ```
 
 See [docs/signing-via-ios-shortcut.md](docs/signing-via-ios-shortcut.md) for detailed signing guide.

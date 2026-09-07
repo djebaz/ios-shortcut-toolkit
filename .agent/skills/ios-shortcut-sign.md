@@ -1,6 +1,6 @@
 # iOS Shortcut Sign
 
-Sign unsigned iOS Shortcuts for import on iOS devices. Choose between Apple's official macOS CLI or cross-platform RoutineHub HubSign service.
+Sign unsigned iOS Shortcuts for import on iOS devices. Choose between the iOS shortcut method (easiest), Apple's official macOS CLI, or cross-platform RoutineHub HubSign service.
 
 ## When to Use This Skill
 
@@ -19,22 +19,121 @@ Use this skill when you need to:
 
 **Always validate before signing** to avoid wasted signing attempts.
 
+## Method 0: iOS Shortcut (Recommended)
+
+### Requirements
+
+- iPhone or iPad with iOS/iPadOS
+- Shortcuts app (pre-installed)
+- "Sign Shortcut File" shortcut from RoutineHub
+- Files app access to unsigned `.shortcut` file
+
+### Setup (One-time)
+
+1. Install "Sign Shortcut File" from RoutineHub:
+   - Open https://routinehub.co/shortcut/26044/ on your iOS device
+   - Tap "Get Shortcut"
+   - Follow installation prompts
+
+### Usage
+
+**Step 1: Transfer unsigned shortcut to iOS**
+
+Choose one method:
+
+**From Windows:**
+```bash
+# Upload to iCloud Drive
+cp build/MyShortcut.shortcut ~/iCloud\ Drive/Shortcuts/
+
+# Or use AirDrop, email, etc.
+```
+
+**From macOS:**
+```bash
+# AirDrop is fastest
+# Or upload to iCloud Drive
+cp build/MyShortcut.shortcut ~/Library/Mobile\ Documents/com~apple~CloudDocs/Shortcuts/
+```
+
+**Step 2: Sign on iOS**
+
+1. Open Shortcuts app on iPhone/iPad
+2. Run "Sign Shortcut File" shortcut
+3. When prompted, select your unsigned `.shortcut` file from Files app
+   - Browse to iCloud Drive, Downloads, or wherever you saved it
+4. The shortcut will output a **signed `.shortcut` file**
+5. Save the signed file (suggested location: Files → Downloads or iCloud Drive)
+
+**Step 3: Import signed shortcut**
+
+1. In Files app, tap the signed `.shortcut` file
+2. iOS will prompt "Add Shortcut"
+3. Tap "Add Shortcut" to import
+4. The shortcut is now in your Shortcuts library, ready to use
+
+### Complete Example
+
+```bash
+# 1. Build unsigned shortcut on Windows/Mac/Linux
+python tools/build_shortcut.py \
+  --donor donors/base_donor.shortcut \
+  --record my_actions.record.json \
+  --output build/MyShortcut.shortcut
+
+# 2. Validate structure
+python tools/validate_shortcut.py build/MyShortcut.shortcut
+
+# 3. Transfer to iOS (via iCloud Drive, AirDrop, email, etc.)
+cp build/MyShortcut.shortcut ~/iCloud\ Drive/
+
+# 4-6. On iOS:
+#   - Run "Sign Shortcut File" shortcut
+#   - Select MyShortcut.shortcut from Files
+#   - Save signed output
+#   - Import into Shortcuts app
+```
+
+### Advantages
+
+✅ **Easiest method** - No command line, no authentication
+✅ **Cross-platform preparation** - Build on any OS, sign on iOS
+✅ **No Mac required** - Works on iPhone/iPad only
+✅ **Fully private** - All processing happens on your device
+✅ **No network required** - Works offline
+✅ **Free** - No RoutineHub membership needed
+✅ **Instant** - Signing happens immediately
+
+### Common Issues
+
+**"Can't find .shortcut file in Files app"**
+- Ensure file has `.shortcut` extension
+- Check it's in an accessible location (iCloud Drive, On My iPhone, Downloads)
+- Try refreshing Files app
+
+**"Signed shortcut won't import"**
+- The output should be a different file than the input
+- Try saving to a different location and importing from there
+- Verify the shortcut was actually signed (file size will be different)
+
 ## Signing Method Comparison
 
-| Aspect | Apple macOS CLI | RoutineHub HubSign |
-|--------|-----------------|-------------------|
-| **Platform** | macOS only | Windows, Linux, macOS |
-| **Requirements** | `shortcuts` CLI tool | Python 3.7+, internet |
-| **Network** | Not required | Required |
-| **Authentication** | Apple account | None (public service) |
-| **Ownership** | Apple official | RoutineHub community |
-| **Speed** | Fast (local) | Depends on network |
-| **Reliability** | Very high | Subject to service availability |
-| **Privacy** | Fully local | Plist sent to remote service |
+| Aspect | iOS Shortcut | Apple macOS CLI | RoutineHub HubSign |
+|--------|--------------|-----------------|-------------------|
+| **Platform** | iOS only | macOS only | Windows, Linux, macOS |
+| **Requirements** | iPhone/iPad, Files app | `shortcuts` CLI tool | Python 3.7+, internet |
+| **Network** | Not required | Not required | Required |
+| **Authentication** | None | Apple account | None |
+| **Ownership** | RoutineHub community | Apple official | RoutineHub community |
+| **Speed** | Instant | Fast (local) | Depends on network |
+| **Reliability** | Very high | Very high | Subject to service availability |
+| **Privacy** | Full (on-device) | Fully local | Plist sent to remote service |
+| **Setup** | One-time install | Pre-installed on macOS | None (script only) |
 
 **Recommendation:**
+- **Have iPhone/iPad:** Use iOS shortcut method (easiest, most private) ⭐ RECOMMENDED
 - **macOS available:** Use Apple's CLI (official, local, fastest)
-- **Windows/Linux or no macOS:** Use HubSign (cross-platform alternative)
+- **Windows/Linux only, no iOS:** Use HubSign (if service is available)
 
 ## Method 1: Apple's macOS CLI (Official)
 
@@ -132,14 +231,14 @@ CMS signatures for `.shortcut` files cannot be generated outside Apple devices, 
 
 **Basic signing:**
 ```bash
-python3 tools/sign_shortcut_hubsign.py \
+python tools/sign_shortcut_hubsign.py \
   Generated.shortcut \
   Generated-signed.shortcut
 ```
 
 **With custom shortcut name:**
 ```bash
-python3 tools/sign_shortcut_hubsign.py \
+python tools/sign_shortcut_hubsign.py \
   Generated.shortcut \
   Generated-signed.shortcut \
   --name "My Custom Shortcut Name"
@@ -147,7 +246,7 @@ python3 tools/sign_shortcut_hubsign.py \
 
 **With custom timeout:**
 ```bash
-python3 tools/sign_shortcut_hubsign.py \
+python tools/sign_shortcut_hubsign.py \
   Generated.shortcut \
   Generated-signed.shortcut \
   --timeout 120
@@ -280,7 +379,7 @@ If this is your first custom shortcut import:
 
 ```bash
 # 1. Validate structure first
-python3 tools/validate_shortcut.py build/MyShortcut.shortcut
+python tools/validate_shortcut.py build/MyShortcut.shortcut
 
 # Output:
 # VALID: basic plist/workflow structure passed.
@@ -308,14 +407,14 @@ xxd -l 4 build/MyShortcut-signed.shortcut
 
 ```bash
 # 1. Validate structure first
-python3 tools/validate_shortcut.py build/MyShortcut.shortcut
+python tools/validate_shortcut.py build/MyShortcut.shortcut
 
 # Output:
 # VALID: basic plist/workflow structure passed.
 # Actions: 5
 
 # 2. Sign with HubSign
-python3 tools/sign_shortcut_hubsign.py \
+python tools/sign_shortcut_hubsign.py \
   build/MyShortcut.shortcut \
   build/MyShortcut-signed.shortcut \
   --name "My Shortcut v1.0"

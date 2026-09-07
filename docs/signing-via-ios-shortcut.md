@@ -47,7 +47,7 @@ This RoutineHub shortcut provides an iOS-native method for signing unsigned shor
 
 1. **On Windows/Linux**: Build unsigned shortcut
    ```bash
-   python3 tools/build_shortcut.py \
+   python tools/build_shortcut.py \
      --donor donors/my_donor.shortcut \
      --record my_actions.record.json \
      --output build/MyShortcut.shortcut

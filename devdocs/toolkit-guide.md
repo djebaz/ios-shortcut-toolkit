@@ -71,7 +71,7 @@ tools/dlshort.py
 Usage:
 
 ```bash
-python3 tools/dlshort.py \
+python tools/dlshort.py \
   https://www.icloud.com/shortcuts/<SHORTCUT_ID> \
   ./output
 ```
@@ -160,7 +160,7 @@ Its input is conceptually:
 ```json
 {
   "filename": "example.png",
-  "cmd": "python3 ...existing command arguments..."
+  "cmd": "python ...existing command arguments..."
 }
 ```
 
@@ -186,13 +186,13 @@ This makes the existing Shortcut useful in two ways:
 Use:
 
 ```bash
-python3 tools/inspect_shortcut.py path/to/Donor.shortcut
+python tools/inspect_shortcut.py path/to/Donor.shortcut
 ```
 
 or:
 
 ```bash
-python3 tools/inspect_shortcut.py path/to/Donor.plist
+python tools/inspect_shortcut.py path/to/Donor.plist
 ```
 
 It prints a summary and action identifiers.
@@ -200,7 +200,7 @@ It prints a summary and action identifiers.
 To export an editable JSON spec:
 
 ```bash
-python3 tools/inspect_shortcut.py \
+python tools/inspect_shortcut.py \
   path/to/Donor.shortcut \
   --spec-out donor-spec.json
 ```
@@ -224,7 +224,7 @@ It deliberately uses a **donor workflow**.
 Usage:
 
 ```bash
-python3 tools/build_shortcut.py \
+python tools/build_shortcut.py \
   --donor Donor.shortcut \
   --spec workflow_spec.json \
   --output Generated.shortcut \
@@ -378,7 +378,7 @@ Do this action-by-action instead of reverse-engineering a large workflow all at 
 Use:
 
 ```bash
-python3 tools/validate_shortcut.py Generated.shortcut
+python tools/validate_shortcut.py Generated.shortcut
 ```
 
 The validator checks at least:
@@ -515,7 +515,7 @@ tools/sign_shortcut_hubsign.py
 Usage:
 
 ```bash
-python3 tools/sign_shortcut_hubsign.py \
+python tools/sign_shortcut_hubsign.py \
   Generated.shortcut \
   Generated-signed.shortcut
 ```
@@ -523,7 +523,7 @@ python3 tools/sign_shortcut_hubsign.py \
 Optional shortcut name:
 
 ```bash
-python3 tools/sign_shortcut_hubsign.py \
+python tools/sign_shortcut_hubsign.py \
   Generated.shortcut \
   Generated-signed.shortcut \
   --name "My Custom Name"
