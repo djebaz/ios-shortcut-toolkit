@@ -354,22 +354,48 @@ This reduces the number of undocumented fields that need to be guessed.
 
 # 10. Building new actions
 
-For each new action type, the most reliable development loop is:
+## Quick reference (use with caution)
 
-1. create the smallest possible Shortcut containing that action in Apple's Shortcuts app;
-2. export/share it;
-3. extract it with `dlshort.py`;
-4. inspect it with `inspect_shortcut.py`;
-5. identify the exact action identifier;
-6. identify its required parameters;
-7. copy/adapt the action dictionary into your spec;
-8. replace generated identifiers with `{{UUID:name}}` placeholders where useful;
-9. build;
-10. validate;
-11. sign;
-12. import and smoke-test.
+The `references/` directory contains a community-maintained catalog of 100+ action identifiers and their key parameters, sourced from the [shortcut-agent-skill](https://github.com/owgit/shortcut-agent-skill) project.
+
+**Use as a starting point, not as the final source of truth.**
+
+Quick lookup:
+- `references/actions.md` - Action identifiers by category
+- `references/plist-format.md` - Plist structure details
+- `references/url-schemes-and-cli.md` - Shortcuts CLI and URL schemes
+
+**Important caveats:**
+1. Actions evolve with iOS updates
+2. Not all parameters may be documented
+3. No official Apple documentation exists
+4. **Always validate against real extracted shortcuts**
+
+## Recommended development loop
+
+For each new action type, the most reliable approach is:
+
+1. **[Optional] Check reference** - Look up the action in `references/actions.md` to get the identifier and key parameters;
+2. create the smallest possible Shortcut containing that action in Apple's Shortcuts app;
+3. export/share it;
+4. extract it with `dlshort.py`;
+5. inspect it with `inspect_shortcut.py`;
+6. identify the exact action identifier and compare with reference;
+7. identify its required parameters from the real shortcut;
+8. copy/adapt the action dictionary into your spec;
+9. replace generated identifiers with `{{UUID:name}}` placeholders where useful;
+10. build;
+11. validate;
+12. sign;
+13. import and smoke-test.
 
 Do this action-by-action instead of reverse-engineering a large workflow all at once.
+
+**Why extract real shortcuts even with the reference?** Because:
+- The reference may be incomplete or outdated
+- Apple's internal fields must be preserved correctly
+- Variable references and control flow need proper UUIDs
+- Real shortcuts guarantee iOS compatibility
 
 ---
 

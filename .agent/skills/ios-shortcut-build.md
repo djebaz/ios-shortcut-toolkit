@@ -249,6 +249,41 @@ Use `{{UUID:name}}` in your spec to generate and reuse consistent UUIDs:
 
 **Important:** The placeholder system only solves identity reuse. It does not tell you which action parameter keys Apple expects. Obtain correct parameter shapes from real extracted donor actions (see `ios-shortcut-extract` skill).
 
+## Finding Action Identifiers and Parameters
+
+### Quick Reference (Use with Caution)
+
+The toolkit includes a community-maintained action catalog in `references/`:
+- **`references/actions.md`** - 100+ actions organized by category with key parameters
+- **`references/plist-format.md`** - Plist structure and control flow patterns
+- **`references/url-schemes-and-cli.md`** - Shortcuts CLI and URL schemes
+
+**Example from `references/actions.md`:**
+```markdown
+| Action | Identifier | Key Parameters |
+|--------|-----------|----------------|
+| Text | `is.workflow.actions.gettext` | `WFTextActionText` |
+| Ask for Input | `is.workflow.actions.ask` | `WFAskActionPrompt`, `WFAskActionDefaultAnswer` |
+```
+
+### Recommended Workflow
+
+**For each new action:**
+
+1. **Check reference** - Look up the action in `references/actions.md` to get the identifier
+2. **Create minimal donor** - Build a tiny shortcut in Shortcuts app with just that action
+3. **Extract and inspect** - Use `ios-shortcut-extract` skill to get the real structure
+4. **Compare** - Verify the reference against the real extracted structure
+5. **Use the real structure** - Copy from the extracted shortcut, not the reference
+
+**Why extract real shortcuts even with the reference?**
+- Reference may be incomplete or outdated
+- Real shortcuts include all Apple internal fields
+- Variable references and UUIDs are correctly wired
+- Guaranteed iOS compatibility
+
+⚠️ **Use reference as guidance, validate with real shortcuts.**
+
 ## Workflow Overrides (Optional)
 
 Use `workflow_overrides` to change root-level workflow metadata:

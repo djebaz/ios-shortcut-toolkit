@@ -19,13 +19,19 @@ This guide helps Claude Code agents work effectively with the iOS Shortcut Toolk
 ios-shortcut-toolkit/
 ├── devdocs/
 │   └── toolkit-guide.md       Comprehensive reference (689 lines)
+├── references/
+│   ├── actions.md             100+ action identifiers with parameters
+│   ├── plist-format.md        Plist structure and control flow
+│   ├── url-schemes-and-cli.md Shortcuts CLI and URL schemes
+│   └── README.md              Usage guide and caveats
 ├── tools/
 │   ├── shortcut_plist.py      Shared utilities (UUID placeholders, plist I/O)
 │   ├── dlshort.py             Extract shortcuts from iCloud URLs
 │   ├── inspect_shortcut.py    Inspect and export action specs
 │   ├── build_shortcut.py      Generate shortcuts from donor + spec
 │   ├── validate_shortcut.py   Structural validation
-│   └── sign_shortcut.sh       Sign shortcuts (macOS only)
+│   ├── sign_shortcut.sh       Sign shortcuts (macOS CLI)
+│   └── sign_shortcut_hubsign.py Cross-platform signing via HubSign
 └── examples/
     └── workflow_spec.example.json
 ```
@@ -134,18 +140,32 @@ Use `{{UUID:name}}` to generate and reuse UUIDs across actions:
 - UUIDs are uppercase format: `A1B2C3D4-E5F6-7890-ABCD-EF1234567890`
 - Useful for connecting action outputs and variable references
 
+## Action Reference
+
+The toolkit includes a community-maintained action catalog in `references/`:
+- **`references/actions.md`** - 100+ action identifiers with key parameters
+- **`references/plist-format.md`** - Plist structure and control flow
+- **`references/url-schemes-and-cli.md`** - Shortcuts CLI and URL schemes
+
+⚠️ **Use as guidance, not gospel:**
+- Actions evolve with iOS updates
+- Reference may be incomplete or outdated
+- Apple doesn't publish official documentation
+- **Always validate against real extracted shortcuts**
+
+### Recommended action development workflow:
+
+1. **[Optional] Check reference** - Look up action in `references/actions.md` for identifier and common parameters
+2. Create a minimal shortcut in Apple's Shortcuts app with the desired action
+3. Export/share it
+4. Extract with `dlshort.py`
+5. Inspect with `inspect_shortcut.py`
+6. Compare extracted structure with reference
+7. Copy the **real extracted structure** into your spec (not just the reference)
+
 ## Key Limitations
 
-### 1. No comprehensive action catalog
-
-Apple doesn't publish action schemas. To learn action structures:
-1. Create a minimal shortcut in Apple's Shortcuts app with the desired action
-2. Export/share it
-3. Extract with `dlshort.py`
-4. Inspect with `inspect_shortcut.py`
-5. Copy the action structure into your spec
-
-### 2. Structural validation only
+### 1. Structural validation only
 
 `validate_shortcut.py` checks:
 - File parses as plist

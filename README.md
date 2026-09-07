@@ -90,6 +90,7 @@ Import and smoke test
 ## Documentation
 
 - **[Toolkit Guide](devdocs/toolkit-guide.md)** - Comprehensive guide covering extraction, plist structure, UUID placeholders, validation, signing, and full end-to-end workflows
+- **[Action Reference](references/)** - Catalog of 100+ action identifiers and parameters (use as guidance, validate with real shortcuts)
 - **[AGENTS.md](AGENTS.md)** - Guide for Claude Code agents working with this toolkit
 
 ## Requirements

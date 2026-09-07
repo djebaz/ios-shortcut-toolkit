@@ -125,15 +125,35 @@ donors/
     └── README.md (document learned patterns)
 ```
 
+## Action Reference (Use with Caution)
+
+The toolkit includes a **community-maintained action reference** in `references/`:
+- `references/actions.md` - 100+ action identifiers with key parameters
+- `references/plist-format.md` - Plist structure details
+- `references/url-schemes-and-cli.md` - CLI and URL schemes
+
+**Use as a starting point, then extract real shortcuts to validate.**
+
+⚠️ **Important caveats:**
+1. Reference may be incomplete or outdated as iOS evolves
+2. Apple doesn't publish official documentation
+3. Some parameters may be missing or incorrect
+4. **Always validate against real extracted shortcuts**
+
+**Recommended workflow:**
+1. Check `references/actions.md` to find action identifier
+2. Create minimal shortcut with that action in Shortcuts app
+3. Extract and inspect with this skill
+4. Compare real structure with reference documentation
+5. Use the real extracted structure as your source of truth
+
 ## Key Limitations to Remember
 
-1. **No comprehensive action catalog exists** - Apple doesn't publish action schemas. Every action must be learned by extracting real shortcuts.
+1. **Actions can change** - iOS updates may modify action parameters or add new actions. Always extract from current iOS version.
 
-2. **Actions can change** - iOS updates may modify action parameters or add new actions. Always extract from current iOS version.
+2. **Private shortcuts are inaccessible** - Only public iCloud-shared shortcuts can be downloaded. You cannot extract private shortcuts or shortcuts from other devices.
 
-3. **Private shortcuts are inaccessible** - Only public iCloud-shared shortcuts can be downloaded. You cannot extract private shortcuts or shortcuts from other devices.
-
-4. **Parameter schemas are undocumented** - The toolkit shows you what parameters exist in a real shortcut, but cannot tell you all possible parameters or valid value ranges.
+3. **Parameter schemas partially documented** - The reference provides common parameters, but the toolkit shows you what actually exists in real shortcuts, including all optional parameters and valid value ranges.
 
 ## Important Files
 
