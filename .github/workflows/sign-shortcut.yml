@@ -1,0 +1,122 @@
+name: Sign iOS Shortcut
+
+on:
+  workflow_dispatch:
+    inputs:
+      shortcut_path:
+        description: 'Path to unsigned shortcut file (relative to repo root)'
+        required: true
+        type: string
+      shortcut_name:
+        description: 'Name for the signed shortcut (optional, derived from filename if not provided)'
+        required: false
+        type: string
+      signing_mode:
+        description: 'Signing mode'
+        required: false
+        type: choice
+        default: 'anyone'
+        options:
+          - anyone
+          - people-who-know-me
+
+jobs:
+  sign:
+    name: Sign Shortcut on macOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify shortcuts CLI is available
+        run: |
+          if ! command -v shortcuts &> /dev/null; then
+            echo "Error: shortcuts CLI not found"
+            echo "macOS version: $(sw_vers -productVersion)"
+            exit 1
+          fi
+          echo "shortcuts CLI found"
+          shortcuts --help || true
+
+      - name: Validate input file exists
+        run: |
+          if [ ! -f "${{ inputs.shortcut_path }}" ]; then
+            echo "Error: Input file not found: ${{ inputs.shortcut_path }}"
+            exit 1
+          fi
+          echo "Input file found: ${{ inputs.shortcut_path }}"
+          ls -lh "${{ inputs.shortcut_path }}"
+
+      - name: Validate shortcut structure
+        run: |
+          python3 tools/validate_shortcut.py "${{ inputs.shortcut_path }}"
+
+      - name: Determine output filename
+        id: output
+        run: |
+          INPUT="${{ inputs.shortcut_path }}"
+          BASENAME=$(basename "$INPUT" .shortcut)
+          OUTPUT="${INPUT%.shortcut}-signed.shortcut"
+          echo "output_path=$OUTPUT" >> $GITHUB_OUTPUT
+          echo "basename=$BASENAME" >> $GITHUB_OUTPUT
+          echo "Will create signed shortcut at: $OUTPUT"
+
+      - name: Sign shortcut using Apple CLI
+        run: |
+          MODE="${{ inputs.signing_mode }}"
+          INPUT="${{ inputs.shortcut_path }}"
+          OUTPUT="${{ steps.output.outputs.output_path }}"
+
+          echo "Signing shortcut..."
+          echo "  Input:  $INPUT"
+          echo "  Output: $OUTPUT"
+          echo "  Mode:   $MODE"
+
+          shortcuts sign \
+            --mode "$MODE" \
+            --input "$INPUT" \
+            --output "$OUTPUT"
+
+          echo "Signing complete"
+          ls -lh "$OUTPUT"
+
+      - name: Verify signature
+        run: |
+          OUTPUT="${{ steps.output.outputs.output_path }}"
+          echo "Verifying signature..."
+
+          # Check for AEA1 magic bytes
+          HEADER=$(xxd -l 4 -p "$OUTPUT")
+          echo "Header bytes: $HEADER"
+
+          if [ "$HEADER" = "41454131" ]; then
+            echo "✓ Valid signature (AEA1 magic bytes present)"
+          else
+            echo "✗ Invalid signature - expected 41454131, got $HEADER"
+            exit 1
+          fi
+
+      - name: Upload signed shortcut
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.output.outputs.basename }}-signed
+          path: ${{ steps.output.outputs.output_path }}
+          retention-days: 7
+
+      - name: Summary
+        run: |
+          OUTPUT="${{ steps.output.outputs.output_path }}"
+          echo "## ✅ Shortcut Signed Successfully" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Input:** \`${{ inputs.shortcut_path }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Output:** \`$OUTPUT\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Mode:** \`${{ inputs.signing_mode }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Download the signed shortcut from the **Artifacts** section above." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Import on iOS" >> $GITHUB_STEP_SUMMARY
+          echo "1. Download the artifact" >> $GITHUB_STEP_SUMMARY
+          echo "2. Extract the \`.shortcut\` file" >> $GITHUB_STEP_SUMMARY
+          echo "3. Transfer to iOS (AirDrop, iCloud Drive, email)" >> $GITHUB_STEP_SUMMARY
+          echo "4. Open with Shortcuts app" >> $GITHUB_STEP_SUMMARY
